@@ -41,7 +41,7 @@ class PasienController extends Controller
             'role' => 'pasien',
         ]);
 
-        return redirect()->route('pasien.index')->with('message', 'Data Pasien berhasil di Tambah>')->with('type', 'success');
+        return redirect()->route('pasien.index')->with('message', 'Data Pasien Berhasil di Tambah')->with('type', 'success');
     }
 
     public function edit(User $pasien)
@@ -57,7 +57,7 @@ class PasienController extends Controller
             'no_ktp' => 'required|string|max:16|unique:users,no_ktp,' . $pasien->id,
             'no_hp' => 'required|string|max:15',
             'email' => 'required|string|email|unique:users,email,' . $pasien->id,
-            'password' => 'required|string|min:6',
+            'password' => 'nullable|string|min:6',
         ]);
 
         $updateData = [
@@ -76,7 +76,7 @@ class PasienController extends Controller
 
         return redirect()
             ->route('pasien.index')
-            ->with('message', 'Data Pasien berhasil di Ubah>')
+            ->with('message', 'Data Pasien Berhasil di Ubah')
             ->with('type', 'success');
     }
 
@@ -85,7 +85,7 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect()
             ->route('pasien.index')
-            ->with('message', 'Data Pasien berhasil dihapus')
+            ->with('message', 'Data Pasien Berhasil di Hapus')
             ->with('type', 'success');
     }
 }

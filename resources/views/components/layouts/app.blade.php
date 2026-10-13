@@ -46,6 +46,22 @@
                 </div>
                 @endif
 
+                @if (session('message'))
+               <div id="flash-message"
+                 class="mb-6 px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2
+                {{ session('type') === 'error'
+                    ? 'bg-red-50 border border-red-200 text-red-700'
+                    : 'bg-emerald-50 border border-emerald-200 text-emerald-700' }}">
+                 <i class="fas {{ session('type') === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check' }}"></i>
+                 {{ session('message') }}
+                 </div>
+
+                     <script>
+                     setTimeout(() => document.getElementById('flash-message')?.remove(), 4000);
+                 </script>
+                    @endif
+
+
                 {{ $slot }}
 
             </div>

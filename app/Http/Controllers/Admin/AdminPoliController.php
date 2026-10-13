@@ -27,7 +27,7 @@ class AdminPoliController extends Controller
         ]);
 
         Poli::create($validated);
-        return redirect()->route('polis.index')->with('success', 'Poli berhasil di tambahkan')->with('type', 'success');
+        return redirect()->route('polis.index')->with('success', 'Data Poli Berhasil di Tambahkan')->with('type', 'success');
     }
 
     public function edit(string $id)
@@ -45,13 +45,13 @@ class AdminPoliController extends Controller
 
         $poli = Poli::findOrFail($id);
         $poli->update($validated);
-        return redirect()->route('polis.index')->with('success', 'Polis berhasil di update');
+        return redirect()->route('polis.index')->with('success', 'Data Poli Berhasil di Ubah');
     }
 
     public function destroy(string $id)
     {
         $poli = Poli::findOrFail($id);
         $poli->delete();
-        return redirect()->route('polis.index')->with('success', 'Polis Berhasil di hapus !');
+        return redirect()->route('polis.index')->with('success', 'Data Poli Berhasil di Hapus');
     }
 }

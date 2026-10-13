@@ -100,7 +100,7 @@ class JadwalPeriksaController extends Controller
 
     return redirect()
         ->route('jadwal-periksa.index')
-        ->with('message', 'Jadwal Periksa berhasil diaktifkan')
+        ->with('message', 'Jadwal Periksa Berhasil diaktifkan')
         ->with('type', 'success');
     }
 }

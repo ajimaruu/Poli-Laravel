@@ -6,9 +6,9 @@
             Data Obat
         </h2>
 
-        <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5
-                  bg-primary hover:bg-primary/90
-                  text-white text-sm font-semibold
+        <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 
+                  bg-primary hover:bg-primary/90 
+                  text-white text-sm font-semibold 
                   rounded-xl transition">
             <i class="fas fa-plus text-xs"></i>
             Tambah Obat
@@ -34,42 +34,45 @@
 
                     {{-- Table Body --}}
                     <tbody class="text-sm text-slate-700">
-                        @forelse($obat as $item)
+                        @forelse($obats as $obat)
                         <tr class="border-t border-slate-100 hover:bg-slate-50 transition">
 
                             <td class="px-6 py-4 font-semibold text-slate-800">
-                                {{ $item->nama_obat }}
+                                {{ $obat->nama_obat }}
                             </td>
 
-                            <td class="px-6 py-4 text-slate-600">
-                                {{ $item->kemasan ?? '-' }}
+                            <td class="px-6 py-4">
+                                <span class="inline-block px-3 py-1 text-xs font-semibold 
+                                             rounded-full bg-green-100 text-green-600">
+                                    {{ $obat->kemasan ?? '-' }}
+                                </span>
                             </td>
 
-                            <td class="px-6 py-4 text-slate-600">
-                                Rp {{ number_format($item->harga, 0, ',', '.') }}
+                            <td class="px-6 py-4 font-semibold text-slate-800">
+                                Rp {{ number_format($obat->harga, 0, ',', '.') }}
                             </td>
 
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
 
                                     {{-- Edit --}}
-                                    <a href="{{ route('obat.edit', $item->id) }}" class="inline-flex items-center gap-1 px-4 py-2
-                                              bg-amber-500 hover:bg-amber-600
-                                              text-white text-xs font-semibold
+                                    <a href="{{ route('obat.edit', $obat->id) }}" class="inline-flex items-center gap-1 px-4 py-2 
+                                              bg-amber-500 hover:bg-amber-600 
+                                              text-white text-xs font-semibold 
                                               rounded-lg transition">
                                         <i class="fas fa-pen text-xs"></i>
                                         Edit
                                     </a>
 
                                     {{-- Delete --}}
-                                    <form action="{{ route('obat.destroy', $item->id) }}" method="POST">
+                                    <form action="{{ route('obat.destroy', $obat->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit"
-                                            onclick="return confirm('Yakin ingin menghapus obat ini?')" class="inline-flex items-center gap-1 px-4 py-2
-                                                   bg-red-500 hover:bg-red-600
-                                                   text-white text-xs font-semibold
+                                            onclick="return confirm('Yakin ingin menghapus obat ini?')" class="inline-flex items-center gap-1 px-4 py-2 
+                                                   bg-red-500 hover:bg-red-600 
+                                                   text-white text-xs font-semibold 
                                                    rounded-lg transition">
                                             <i class="fas fa-trash text-xs"></i>
                                             Hapus

@@ -12,12 +12,12 @@ class DaftarPoli extends Model
         'id_pasien',
         'id_jadwal',
         'keluhan',
-        'no_antrian'
+        'no_antrian',
     ];
 
     public function pasien()
     {
-        return $this->belongsTo(Pasien::class, 'id_pasien');
+        return $this->belongsTo(User::class, 'id_pasien');
     }
 
     public function jadwalPeriksa()

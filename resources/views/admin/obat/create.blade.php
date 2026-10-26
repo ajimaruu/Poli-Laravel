@@ -21,7 +21,7 @@
                 @csrf
 
                 {{-- Grid --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 
                     {{-- Nama Obat --}}
                     <div>
@@ -29,9 +29,11 @@
                             Nama Obat <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="nama_obat" value="{{ old('nama_obat') }}"
-                            placeholder="Masukkan nama obat..." class="w-full px-4 py-2 border-2 rounded-lg p-2
-                                      focus:border-primary focus:outline-none
-                                      @error('nama_obat') border-red-500 @enderror" required>
+                            placeholder="Masukkan nama obat..."
+                            class="w-full px-4 py-2 rounded-lg border-2 border-slate-300
+                                   focus:border-primary focus:outline-none
+                                   @error('nama_obat') border-red-500 @enderror"
+                            required>
                         @error('nama_obat')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -40,38 +42,51 @@
                     {{-- Kemasan --}}
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-1">
-                            Kemasan
+                            Kemasan <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="kemasan" value="{{ old('kemasan') }}"
-                            placeholder="Contoh: Strip, Botol, Tube..." class="w-full px-4 py-2 border-2 rounded-lg p-2
-                                      focus:border-primary focus:outline-none
-                                      @error('kemasan') border-red-500 @enderror">
+                            placeholder="Contoh: Tablet, Sirup, Kapsul..."
+                            class="w-full px-4 py-2 rounded-lg border-2 border-slate-300
+                                   focus:border-primary focus:outline-none
+                                   @error('kemasan') border-red-500 @enderror"
+                            required>
                         @error('kemasan')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
-                </div>
-
-                {{-- Harga --}}
-                <div class="mb-8">
-                    <label class="block text-sm font-semibold text-slate-700 mb-1">
-                        Harga <span class="text-red-500">*</span>
-                    </label>
-
-                    <div class="flex items-center border-2 rounded-lg p-2 px-4 py-2
-                                focus-within:border-primary">
-                        <span class="text-slate-500 text-sm font-semibold mr-2">
-                            Rp
-                        </span>
-                        <input type="number" name="harga" value="{{ old('harga') }}" placeholder="0" min="0" step="1"
-                            class="w-full focus:outline-none
-                                      @error('harga') border-red-500 @enderror" required>
+                    {{-- Harga --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">
+                            Harga <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" name="harga" value="{{ old('harga') }}" min="0"
+                            placeholder="Masukkan harga..."
+                            class="w-full px-4 py-2 rounded-lg border-2 border-slate-300
+                                   focus:border-primary focus:outline-none
+                                   @error('harga') border-red-500 @enderror"
+                            required>
+                        @error('harga')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    @error('harga')
-                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                    @enderror
+                    {{-- # FITUR BARU: Stok (dibutuhkan untuk Export Excel data obat) --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">
+                            Stok <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" name="stok" value="{{ old('stok', 0) }}" min="0"
+                            placeholder="Jumlah stok..."
+                            class="w-full px-4 py-2 rounded-lg border-2 border-slate-300
+                                   focus:border-primary focus:outline-none
+                                   @error('stok') border-red-500 @enderror"
+                            required>
+                        @error('stok')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                 </div>
 
                 {{-- Buttons --}}
@@ -91,7 +106,6 @@
                 </div>
 
             </form>
-
         </div>
     </div>
 

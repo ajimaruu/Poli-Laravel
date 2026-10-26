@@ -12,6 +12,7 @@ class Obat extends Model
         'nama_obat',
         'kemasan',
         'harga',
+        'stok', # kolom baru (Fast Track)
     ];
 
     public function detailPeriksas()

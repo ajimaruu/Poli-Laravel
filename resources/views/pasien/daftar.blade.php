@@ -1,12 +1,5 @@
 <x-layouts.app title="Daftar Poli">
 
-    @php
-        // Nomor rekam medis: pakai kolom no_rm kalau ada, kalau tidak dibuat
-        // dari bulan pendaftaran user + id yang dipadding jadi 3 digit.
-        $noRm = $user->no_rm
-            ?? (($user->created_at ?? now())->format('Ym') . '-' . str_pad($user->id, 3, '0', STR_PAD_LEFT));
-    @endphp
-
     <div class="flex justify-center">
         <div class="w-full max-w-xl">
 
@@ -19,11 +12,23 @@
                         Pendaftaran Poli
                     </h2>
 
+                    {{-- # KETENTUAN DASHBOARD: pasien yang masih punya antrian aktif tidak boleh daftar lagi.
+                         # Form tetap tampil tetapi dikunci (fieldset disabled), dan server juga menolak. --}}
+                    @if($antrianAktif)
+                    <div class="mb-6 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+                        <p class="font-semibold mb-1"><i class="fas fa-triangle-exclamation mr-1"></i> Anda masih memiliki antrian aktif</p>
+                        <p>
+                            {{ $antrianAktif->jadwalPeriksa->dokter->poli->nama_poli ?? '-' }} &middot;
+                            No. antrian <b>{{ $antrianAktif->no_antrian }}</b>.
+                            Anda dapat mendaftar lagi setelah pemeriksaan selesai.
+                        </p>
+                        <a href="{{ route('pasien.dashboard') }}" class="inline-block mt-2 font-semibold underline">Lihat antrian</a>
+                    </div>
+                    @endif
+
                     <form action="{{ route('pasien.daftar.submit') }}" method="POST">
                         @csrf
-
-                        {{-- id pasien yang sedang login --}}
-                        <input type="hidden" name="id_pasien" value="{{ $user->id }}">
+                        <fieldset @disabled($antrianAktif) class="disabled:opacity-60">
 
                         {{-- Nomor Rekam Medis (tampilan saja) --}}
                         <div class="mb-4">
@@ -106,6 +111,7 @@
                             </button>
                         </div>
 
+                        </fieldset>
                     </form>
                 </div>
             </div>

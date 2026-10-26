@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DokterExport;
 use App\Http\Controllers\Controller;
 use App\Models\Poli;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Hash;
 
 class DokterController extends Controller
@@ -95,5 +97,12 @@ class DokterController extends Controller
         return redirect()->route('dokter.index')
             ->with('message', 'Data Dokter Berhasil di Hapus')
             ->with('type', 'success');
+    }
+
+    # EXPORT EXCEL: data dokter (semua dokter beserta poli).
+    # Excel::download() membuat file .xlsx lalu langsung mengirimnya ke browser.
+    public function export()
+    {
+        return Excel::download(new DokterExport, 'data-dokter-' . now()->format('Y-m-d') . '.xlsx');
     }
 }

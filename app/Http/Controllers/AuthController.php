@@ -29,7 +29,9 @@ class AuthController extends Controller
             }
         }
 
-        return back()->withErrors(['email', 'Email atau password salah']);
+        return back()
+    ->withErrors(['email' => 'Email atau password salah.'])
+    ->onlyInput('email');
     }
 
     public function showRegister()

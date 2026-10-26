@@ -1,18 +1,23 @@
 <x-layouts.app title="Data Obat">
 
     {{-- Header --}}
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-6 gap-3 flex-wrap">
         <h2 class="text-2xl font-bold text-slate-800">
             Data Obat
         </h2>
 
-        <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 
-                  bg-primary hover:bg-primary/90 
-                  text-white text-sm font-semibold 
-                  rounded-xl transition">
-            <i class="fas fa-plus text-xs"></i>
-            Tambah Obat
-        </a>
+        <div class="flex items-center gap-2">
+            {{-- # FITUR BARU: tombol Export Excel --}}
+            @include('components.partials.tombol-export', ['url' => route('obat.export')])
+
+            <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5
+                      bg-primary hover:bg-primary/90
+                      text-white text-sm font-semibold
+                      rounded-xl transition">
+                <i class="fas fa-plus text-xs"></i>
+                Tambah Obat
+            </a>
+        </div>
     </div>
 
     {{-- Card --}}
@@ -28,51 +33,57 @@
                             <th class="px-6 py-4">Nama Obat</th>
                             <th class="px-6 py-4">Kemasan</th>
                             <th class="px-6 py-4">Harga</th>
+                            <th class="px-6 py-4">Stok</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
 
                     {{-- Table Body --}}
                     <tbody class="text-sm text-slate-700">
-                        @forelse($obats as $obat)
+                        @forelse($obat as $item)
                         <tr class="border-t border-slate-100 hover:bg-slate-50 transition">
 
                             <td class="px-6 py-4 font-semibold text-slate-800">
-                                {{ $obat->nama_obat }}
+                                {{ $item->nama_obat }}
                             </td>
 
+                            <td class="px-6 py-4 text-slate-600">
+                                {{ $item->kemasan ?? '-' }}
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                Rp {{ number_format($item->harga, 0, ',', '.') }}
+                            </td>
+
+                            {{-- # Stok habis ditandai merah supaya admin cepat melihat --}}
                             <td class="px-6 py-4">
-                                <span class="inline-block px-3 py-1 text-xs font-semibold 
-                                             rounded-full bg-green-100 text-green-600">
-                                    {{ $obat->kemasan ?? '-' }}
+                                <span class="px-3 py-1 rounded-lg text-xs font-semibold
+                                    {{ $item->stok > 0 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600' }}">
+                                    {{ $item->stok }}
                                 </span>
-                            </td>
-
-                            <td class="px-6 py-4 font-semibold text-slate-800">
-                                Rp {{ number_format($obat->harga, 0, ',', '.') }}
                             </td>
 
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
 
                                     {{-- Edit --}}
-                                    <a href="{{ route('obat.edit', $obat->id) }}" class="inline-flex items-center gap-1 px-4 py-2 
-                                              bg-amber-500 hover:bg-amber-600 
-                                              text-white text-xs font-semibold 
+                                    <a href="{{ route('obat.edit', $item->id) }}" class="inline-flex items-center gap-1 px-4 py-2
+                                              bg-amber-500 hover:bg-amber-600
+                                              text-white text-xs font-semibold
                                               rounded-lg transition">
                                         <i class="fas fa-pen text-xs"></i>
                                         Edit
                                     </a>
 
                                     {{-- Delete --}}
-                                    <form action="{{ route('obat.destroy', $obat->id) }}" method="POST">
+                                    <form action="{{ route('obat.destroy', $item->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
 
                                         <button type="submit"
-                                            onclick="return confirm('Yakin ingin menghapus obat ini?')" class="inline-flex items-center gap-1 px-4 py-2 
-                                                   bg-red-500 hover:bg-red-600 
-                                                   text-white text-xs font-semibold 
+                                            onclick="return confirm('Yakin ingin menghapus obat ini?')" class="inline-flex items-center gap-1 px-4 py-2
+                                                   bg-red-500 hover:bg-red-600
+                                                   text-white text-xs font-semibold
                                                    rounded-lg transition">
                                             <i class="fas fa-trash text-xs"></i>
                                             Hapus
@@ -85,7 +96,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-12 text-slate-400">
+                            <td colspan="5" class="text-center py-12 text-slate-400">
                                 <i class="fas fa-inbox text-3xl mb-3 block"></i>
                                 Belum ada data obat
                             </td>

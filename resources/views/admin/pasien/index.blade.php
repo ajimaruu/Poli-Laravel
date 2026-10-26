@@ -6,13 +6,18 @@
             Data Pasien
         </h2>
 
-        <a href="{{ route('pasien.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5
-                  bg-primary hover:bg-primary/90
-                  text-white text-sm font-semibold
-                  rounded-xl transition">
-            <i class="fas fa-plus text-xs"></i>
-            Tambah Pasien
-        </a>
+        <div class="flex items-center gap-2">
+            {{-- # FITUR BARU: tombol Export Excel --}}
+            @include('components.partials.tombol-export', ['url' => route('pasien.export')])
+
+            <a href="{{ route('pasien.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5
+                      bg-primary hover:bg-primary/90
+                      text-white text-sm font-semibold
+                      rounded-xl transition">
+                <i class="fas fa-plus text-xs"></i>
+                Tambah Pasien
+            </a>
+        </div>
     </div>
 
     {{-- Card --}}

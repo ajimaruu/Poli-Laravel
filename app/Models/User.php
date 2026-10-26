@@ -62,4 +62,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
     }
+
+    # Semua pendaftaran poli milik pasien ini (dipakai fitur Riwayat & Dashboard)
+    public function daftarPolis()
+    {
+        return $this->hasMany(DaftarPoli::class, 'id_pasien');
+    }
 }

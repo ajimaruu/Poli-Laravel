@@ -23,9 +23,9 @@
                 {{-- id daftar poli yang sedang diperiksa --}}
                 <input type="hidden" name="id_daftar_poli" value="{{ $id }}">
 
-                {{-- data yang dikirim ke controller --}}
+                {{-- # Hanya daftar id obat yang dikirim. Total biaya TIDAK dikirim dari form,
+                     # melainkan dihitung ulang di server (PeriksaPasienController@store). --}}
                 <input type="hidden" name="obat_json" id="obat_json" value="[]">
-                <input type="hidden" name="biaya_periksa" id="biaya_periksa" value="0">
 
                 {{-- Pilih Obat --}}
                 <div class="mb-6">
@@ -38,10 +38,13 @@
                                @error('obat_json') border-red-500 @enderror">
                         <option value="">-- Pilih Obat --</option>
                         @foreach($obats as $obat)
+                        {{-- # Obat dengan stok 0 tampil tetapi tidak bisa dipilih --}}
                         <option value="{{ $obat->id }}"
                                 data-nama="{{ $obat->nama_obat }}"
-                                data-harga="{{ $obat->harga }}">
+                                data-harga="{{ $obat->harga }}"
+                                @disabled($obat->stok <= 0)>
                             {{ $obat->nama_obat }} ({{ $obat->kemasan }}) - Rp {{ number_format($obat->harga, 0, ',', '.') }}
+                            {{ $obat->stok > 0 ? '· stok ' . $obat->stok : '· STOK HABIS' }}
                         </option>
                         @endforeach
                     </select>
@@ -73,6 +76,9 @@
                                 text-slate-700 font-semibold">
                         Rp 0
                     </div>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Total harga obat. Jasa dokter Rp 150.000 ditambahkan otomatis saat disimpan.
+                    </p>
                 </div>
 
                 {{-- Catatan --}}
@@ -119,7 +125,6 @@
         const obatKosong = document.getElementById('obat_kosong');
         const totalHarga = document.getElementById('total_harga');
         const inputObatJson = document.getElementById('obat_json');
-        const inputBiaya = document.getElementById('biaya_periksa');
 
         // Tambah obat saat dropdown dipilih.
         selectObat.addEventListener('change', function () {
@@ -179,7 +184,7 @@
 
             // Nilai yang dibaca controller saat store().
             inputObatJson.value = JSON.stringify(obatTerpilih.map(o => o.id));
-            inputBiaya.value = total;
+
         }
 
         render();
